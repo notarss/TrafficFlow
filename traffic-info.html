@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi Lalu Lintas - TrafficFlow</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <h1>Informasi Kondisi Lalu Lintas</h1>
+        <a href="dashboard-visitor.html" class="btn-back">← Kembali ke Dashboard</a>
+    </header>
+    <main class="dashboard-main">
+        <section>
+            <h2>Kondisi Jalan Saat Ini</h2>
+            <p>Berikut adalah kondisi lalu lintas di beberapa titik di Malang:</p>
+            <ul>
+                <li><strong>Simpang Tiga Jalan Veteran:</strong> Lalu lintas padat merayap.</li>
+                <li><strong>Jembatan Soekarno Hatta:</strong> Lalu lintas lancar dengan sesekali hambatan akibat proyek perbaikan jalan.</li>
+                <li><strong>Alun-alun Malang:</strong> Kemacetan parah terjadi disebabkan oleh volume kendaraan yang tinggi.</li>
+                <li><strong>Jalan Ijen:</strong> Kondisi lalu lintas cenderung lancar sepanjang hari.</li>
+                <li><strong>Pasar Besar Malang:</strong> Lalu lintas ramai lancar, dengan hambatan kecil akibat aktivitas pasar.</li>
+            </ul>
+        </section>
+        <section id="check-route">
+            <h3>Cek Rute Tercepat</h3>
+                <p>Temukan rute tercepat dari lokasi Anda ke tujuan dengan klik tombol di bawah ini:</p>
+                <a href="check-route.html" class="btn">Cek Rute Tercepat</a>
+        </section>
+        <section id="access-cctv">
+            <h3>Akses CCTV</h3>
+            <p>Pilih lokasi untuk melihat kondisi jalan melalui CCTV:</p>
+            <form id="cctv-form">
+                <select id="cctv-location" name="location" required>
+                    <option value="" disabled selected>Pilih Lokasi</option>
+                    <option value="area-1">Area 1 - Simpang Tiga Jalan Veteran</option>
+                    <option value="area-2">Area 2 - Jembatan Soekarno Hatta</option>
+                    <option value="area-3">Area 3 - Alun-alun Malang</option>
+                    <option value="area-4">Area 4 - Jalan Ijen</option>
+                    <option value="area-5">Area 5 - Pasar Besar Malang</option>
+                </select>
+                <button type="button" class="btn" id="view-cctv">Akses CCTV</button>
+            </form>
+        </section>
+    </main>
+</body>
+<script>
+    // Script untuk mengarahkan ke halaman cctv-view.html
+    document.getElementById('view-cctv').addEventListener('click', function () {
+        const selectedLocation = document.getElementById('cctv-location').value;
+        if (selectedLocation) {
+            // Redirect ke halaman cctv-view.html dengan parameter lokasi
+            window.location.href = `cctv-view.html?area=${selectedLocation}`;
+        } else {
+            alert('Silakan pilih lokasi terlebih dahulu.');
+        }
+    });
+</script>
+</html>

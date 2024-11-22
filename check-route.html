@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Rute Tercepat - TrafficFlow</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function findRoute() {
+            const start = document.getElementById("start-location").value;
+            const destination = document.getElementById("destination").value;
+
+            if (start === "" || destination === "") {
+                alert("Harap masukkan lokasi awal dan tujuan!");
+                return;
+            }
+
+            // Data rute palsu (contoh)
+            const routes = {
+                "Jalan Veteran - Jalan Ijen": ["Jalan Veteran", "Jalan Semeru", "Jalan Ijen"],
+                "Jalan Soekarno-Hatta - Jalan Borobudur": ["Jalan Soekarno-Hatta", "Jalan Sumbersari", "Jalan Borobudur"],
+                "Jalan Dieng - Jalan Sumbersari": ["Jalan Dieng", "Jalan Kawi", "Jalan Sumbersari"]
+            };
+
+            const key = `${start} - ${destination}`;
+            const result = routes[key];
+
+            if (result) {
+                const routeList = result
+                    .map((step, index) => `<li>${index + 1}. ${step}</li>`)
+                    .join("");
+                document.getElementById("route-result").innerHTML = `<ul>${routeList}</ul>`;
+            } else {
+                document.getElementById("route-result").innerHTML =
+                    "<p>Rute tidak ditemukan, pastikan lokasi awal dan tujuan benar.</p>";
+            }
+        }
+    </script>
+</head>
+<body>
+    <header class="main-header">
+        <h1>Cek Rute Tercepat</h1>
+        <a href="dashboard-visitor.html" class="btn">Kembali ke Dashboard</a>
+    </header>
+
+    <main class="route-checker">
+        <h2>Masukkan Lokasi Awal dan Tujuan</h2>
+        <li>Jalan Veteran - Jalan Ijen</li>
+        <li>Jalan Soekarno-Hatta - Jalan Borobudur</li>
+        <li>Jalan Dieng - Jalan Sumbersari</li>
+        <form onsubmit="event.preventDefault(); findRoute();">
+            <label for="start-location">Lokasi Awal:</label>
+            <input type="text" id="start-location" placeholder="Masukkan lokasi awal">
+
+            <label for="destination">Tujuan:</label>
+            <input type="text" id="destination" placeholder="Masukkan tujuan">
+
+            <button type="submit" class="btn">Cari Rute</button>
+        </form>
+
+        <div id="route-result" class="route-result">
+            <!-- Hasil rute akan ditampilkan di sini -->
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 TrafficFlow. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

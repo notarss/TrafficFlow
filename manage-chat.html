@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Chat - TrafficFlow</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <h1>Kelola Chat - Admin</h1>
+        <a href="dashboard-admin.html" class="btn-back">← Kembali ke Dashboard</a>
+    </header>
+    <main class="chat-main">
+        <div class="chat-container">
+            <!-- Sidebar untuk daftar pengguna -->
+            <div class="chat-sidebar">
+                <h3>Daftar Pengguna</h3>
+                <ul id="user-list">
+                    <li class="active" data-user="Pengguna 1">Pengguna 1</li>
+                    <li data-user="Pengguna 2">Pengguna 2</li>
+                </ul>
+            </div>
+            
+            <!-- Jendela Chat -->
+            <div class="chat-window">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message receiver">Pengguna 1: Halo! Ada yang bisa saya bantu?</div>
+                </div>
+                <!-- Form chat -->
+                <form class="chat-form" id="chat-form">
+                    <input type="text" id="chat-input" placeholder="Ketik balasan..." required>
+                    <button type="submit">Kirim</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const chatMessages = document.getElementById('chat-messages');
+        const userList = document.getElementById('user-list');
+
+        // Data chat simulasi
+        const chatData = {
+            "Pengguna 1": [
+                "Pengguna 1: Halo! Ada informasi lalu lintas terbaru?",
+                "Pengguna 1: Apakah ada jalan alternatif?"
+            ],
+            "Pengguna 2": [
+                "Pengguna 2: Bagaimana kondisi di Jalan Veteran?",
+                "Pengguna 2: Terima kasih atas bantuannya!"
+            ]
+        };
+
+        // Fungsi untuk menampilkan chat berdasarkan pengguna
+        function renderChat(user) {
+            chatMessages.innerHTML = ""; // Hapus chat sebelumnya
+            chatData[user].forEach((msg) => {
+                const isReceiver = msg.startsWith("Pengguna");
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isReceiver ? 'receiver' : 'sender'}`;
+                messageDiv.textContent = msg;
+                chatMessages.appendChild(messageDiv);
+            });
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll ke bawah
+        }
+
+        // Ganti pengguna aktif
+        userList.addEventListener('click', (e) => {
+            if (e.target.tagName === 'LI') {
+                document.querySelector('.active').classList.remove('active');
+                e.target.classList.add('active');
+                const user = e.target.dataset.user;
+                renderChat(user);
+            }
+        });
+
+        // Tambahkan pesan admin ke chat
+        chatForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Mencegah refresh halaman
+            const user = document.querySelector('.active').dataset.user;
+            const messageText = chatInput.value.trim();
+
+            if (messageText) {
+                const adminMessage = `Admin: ${messageText}`;
+                chatData[user].push(adminMessage); // Tambahkan ke data chat
+                renderChat(user); // Render ulang chat
+                chatInput.value = ""; // Kosongkan input
+
+                // Simulasi balasan pengguna
+                simulateUserReply(user);
+            }
+        });
+
+        // Simulasi balasan otomatis dari pengguna
+        function simulateUserReply(user) {
+            setTimeout(() => {
+                const replies = [
+                    "Terima kasih atas informasinya!",
+                    "Baik, akan saya coba.",
+                    "Apakah ada update terbaru?",
+                    "Terima kasih, akan saya cek langsung."
+                ];
+                const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                chatData[user].push(`${user}: ${randomReply}`); // Tambahkan balasan pengguna
+                renderChat(user); // Render ulang chat
+            }, 2000); // Balasan setelah 2 detik
+        }
+
+        // Render chat pertama kali
+        renderChat("Pengguna 1");
+    </script>
+</body>
+</html>

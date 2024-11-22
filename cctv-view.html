@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akses CCTV - TrafficFlow</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <h1>Akses CCTV</h1>
+        <a href="traffic-info.html" class="btn-back">← Kembali ke Informasi Lalu Lintas</a>
+    </header>
+    <main class="dashboard-main">
+        <section>
+            <h2>Lokasi CCTV: <span id="cctv-location">Area 1 - Simpang Tiga Jalan Veteran</span></h2>
+            <p>Berikut adalah tampilan CCTV dari lokasi yang Anda pilih:</p>
+            <div class="cctv-display">
+                <img id="cctv-image" src="images/simpang-tiga.jpg" alt="Tampilan CCTV Lokasi" />
+            </div>
+        </section>
+    </main>
+</body>
+<script>
+    // Simulasi pengambilan data dari halaman sebelumnya
+    // Ganti ID area sesuai lokasi yang dipilih di traffic-info.html
+    const queryParams = new URLSearchParams(window.location.search);
+    const selectedArea = queryParams.get('area'); // Contoh: area-1
+
+    const locations = {
+        'area-1': { name: 'Area 1 - Simpang Tiga Jalan Veteran', image: 'veteran.png' },
+        'area-2': { name: 'Area 2 - Jembatan Soekarno Hatta', image: 'soekarno-hatta.png' },
+        'area-3': { name: 'Area 3 - Alun-alun Malang', image: 'alun-alun.png' },
+        'area-4': { name: 'Area 4 - Jalan Ijen', image: 'jalan-ijen.png' },
+        'area-5': { name: 'Area 5 - Pasar Besar Malang', image: 'pasar-besar.png' },
+    };
+
+    // Update tampilan berdasarkan lokasi yang dipilih
+    if (locations[selectedArea]) {
+        document.getElementById('cctv-location').innerText = locations[selectedArea].name;
+        document.getElementById('cctv-image').src = locations[selectedArea].image;
+    } else {
+        document.getElementById('cctv-location').innerText = 'Lokasi Tidak Ditemukan';
+        document.getElementById('cctv-image').src = 'images/not-found.jpg';
+    }
+</script>
+</html>

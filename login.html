@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TrafficFlow</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function handleLogin() {
+            const role = document.getElementById('role').value;
+            if (role === 'visitor') {
+                window.location.href = 'dashboard-visitor.html';
+            } else if (role === 'admin') {
+                window.location.href = 'dashboard-admin.html';
+            } else {
+                alert('Pilih peran sebelum melanjutkan.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login ke TrafficFlow</h2>
+        <form onsubmit="event.preventDefault(); handleLogin();">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Masukkan username" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+            <label for="role">Masuk Sebagai:</label>
+            <select id="role" name="role">
+                <option value="" disabled selected>(pilih salah satu)</option>
+                <option value="visitor">Pengunjung</option>
+                <option value="admin">Admin</option>
+            </select>
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <a href="index.html" class="btn-back">← Kembali ke Halaman Utama</a>
+    </div>
+</body>
+</html>

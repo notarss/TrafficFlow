@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Data Lalu Lintas - TrafficFlow</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <h1>Kelola Data Lalu Lintas</h1>
+        <a href="dashboard-admin.html" class="btn-back">← Kembali ke Dashboard</a>
+    </header>
+    <main class="dashboard-main">
+        <section>
+            <h2>Manajemen Data</h2>
+            <form id="traffic-form">
+                <label for="location">Lokasi:</label>
+                <input type="text" id="location" name="location" placeholder="Masukkan lokasi" required>
+                
+                <label for="condition">Kondisi Lalu Lintas:</label>
+                <select id="condition" name="condition" required>
+                    <option value="">Pilih kondisi</option>
+                    <option value="padat">Padat</option>
+                    <option value="lancar">Lancar</option>
+                    <option value="macet">Macet</option>
+                </select>
+
+                <label for="remarks">Keterangan:</label>
+                <textarea id="remarks" name="remarks" placeholder="Tambahkan keterangan..." rows="4"></textarea>
+
+                <button type="submit" class="btn">Simpan Data</button>
+            </form>
+        </section>
+        <section>
+            <h2>Data Lalu Lintas Saat Ini</h2>
+            <table border="1" cellspacing="0" cellpadding="10">
+                <thead>
+                    <tr>
+                        <th>Lokasi</th>
+                        <th>Kondisi</th>
+                        <th>Keterangan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="traffic-data">
+                    <!-- Data lalu lintas akan diisi di sini -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <script>
+        const form = document.getElementById('traffic-form');
+        const trafficData = document.getElementById('traffic-data');
+
+        // Dummy data for initialization
+        const data = [
+            { location: "Jalan Veteran", condition: "Padat", remarks: "Proyek jalan berlangsung." },
+            { location: "Jalan Ijen", condition: "Lancar", remarks: "Tidak ada hambatan." }
+        ];
+
+        function renderData() {
+            trafficData.innerHTML = "";
+            data.forEach((item, index) => {
+                trafficData.innerHTML += `
+                    <tr>
+                        <td>${item.location}</td>
+                        <td>${item.condition}</td>
+                        <td>${item.remarks}</td>
+                        <td>
+                            <button onclick="deleteData(${index})" class="btn">Hapus</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function deleteData(index) {
+            data.splice(index, 1);
+            renderData();
+        }
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const location = form.location.value;
+            const condition = form.condition.value;
+            const remarks = form.remarks.value;
+
+            data.push({ location, condition, remarks });
+            renderData();
+            form.reset();
+        });
+
+        renderData();
+    </script>
+</body>
+</html>

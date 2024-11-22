@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - TrafficFlow</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <h1>Chat - TrafficFlow</h1>
+        <a href="dashboard-visitor.html" class="btn-back">← Kembali ke Dashboard</a>
+    </header>
+    <main class="chat-main">
+        <div class="chat-container">
+            <!-- Sidebar untuk daftar kontak -->
+            <div class="chat-sidebar">
+                <h3>Daftar Pengguna</h3>
+                <ul id="contact-list">
+                    <li class="active" data-contact="Admin">Admin</li>
+                    <li data-contact="Pengguna 2">Pengguna 2</li>
+                </ul>
+            </div>
+            
+            <!-- Jendela Chat -->
+            <div class="chat-window">
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Pesan awal akan ditampilkan di sini -->
+                    <div class="message sender">Admin: Halo! Ada yang bisa saya bantu?</div>
+                </div>
+                <!-- Form chat -->
+                <form class="chat-form" id="chat-form">
+                    <input type="text" id="chat-input" placeholder="Ketik pesan..." required>
+                    <button type="submit">Kirim</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const chatMessages = document.getElementById('chat-messages');
+        const contactList = document.getElementById('contact-list');
+
+        // Data chat simulasi
+        const chatData = {
+            "Admin": [
+                "Admin: Admin: Halo! Ada yang bisa saya bantu?"
+            ],
+            "Pengguna 2": [
+                "Pengguna 2: Pengguna 2: Apakah ada jalan alternatif ke pusat kota?",
+            ]
+        };
+
+        // Fungsi untuk menampilkan chat berdasarkan kontak
+        function renderChat(contact) {
+            chatMessages.innerHTML = ""; // Bersihkan chat sebelumnya
+            chatData[contact].forEach((msg) => {
+                const isSender = msg.startsWith(contact);
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isSender ? 'sender' : 'receiver'}`;
+                messageDiv.textContent = msg.replace(`${contact}: `, "");
+                chatMessages.appendChild(messageDiv);
+            });
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll ke bawah
+        }
+
+        // Ganti kontak aktif
+        contactList.addEventListener('click', (e) => {
+            if (e.target.tagName === 'LI') {
+                document.querySelector('.active').classList.remove('active');
+                e.target.classList.add('active');
+                const contact = e.target.dataset.contact;
+                renderChat(contact);
+            }
+        });
+
+        // Tambahkan pesan pengguna ke chat
+        chatForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah refresh halaman
+            const contact = document.querySelector('.active').dataset.contact;
+            const messageText = chatInput.value.trim();
+
+            if (messageText) {
+                const userMessage = `${messageText}`;
+                chatData[contact].push(userMessage); // Tambahkan ke data chat
+                renderChat(contact); // Render ulang chat
+                chatInput.value = ""; // Kosongkan input
+
+                // Simulasi balasan otomatis
+                simulateReply(contact);
+            }
+        });
+
+        // Simulasi balasan otomatis
+        function simulateReply(contact) {
+            setTimeout(() => {
+                const replies = {
+                    "Admin": [
+                        "Admin: Terima kasih atas pertanyaan Anda.",
+                        "Admin: Silakan periksa peta lalu lintas di halaman utama.",
+                        "Admin: Saat ini kondisi lalu lintas di pusat kota cukup padat."
+                    ],
+                    "Pengguna 2": [
+                        "Saya sedang mencari informasi tambahan, harap tunggu sebentar.",
+                        "Anda bisa mencoba melewati Jalan Ijen untuk alternatif.",
+                        "Terima kasih atas pertanyaan Anda!"
+                    ]
+                };
+
+                const randomReply = replies[contact][Math.floor(Math.random() * replies[contact].length)];
+                chatData[contact].push(`${contact}: ${randomReply}`); // Tambahkan balasan
+                renderChat(contact); // Render ulang chat
+            }, 2000); // Balasan setelah 2 detik
+        }
+
+        // Render chat pertama kali (Admin default)
+        renderChat("Admin");
+    </script>
+</body>
+</html>
